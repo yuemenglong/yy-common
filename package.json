@@ -1,0 +1,34 @@
+{
+    "name": "yy-common",
+    "version": "1.0.0",
+    "description": "yuemenglong's nodejs common lib",
+    "main": "index.js",
+    "dependencies": {
+        "async": "^1.5.0",
+        "body-parser": "^1.14.1",
+        "cookie-parser": "^1.4.1",
+        "express": "^4.13.3",
+        "iconv-lite": "^0.4.13",
+        "q": "^1.4.1",
+        "should": "^7.1.1",
+        "tracer": "^0.8.2"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/yuemenglong/yy-common.git"
+    },
+    "keywords": [
+        "nodejs",
+        "common",
+        "lib"
+    ],
+    "author": "yuemenglong",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/yuemenglong/yy-common/issues"
+    },
+    "homepage": "https://github.com/yuemenglong/yy-common#readme"
+}
