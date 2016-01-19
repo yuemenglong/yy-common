@@ -4,7 +4,7 @@ var util = require("util");
 
 var logger = require("./logger");
 var loop = require("./loop");
-var Promise = require("./promise");
+var promise = require("./promise");
 var Exception = require("./exception");
 
 var _counter = 0;
@@ -36,13 +36,14 @@ function Task() {
     this._run = function() {
         //_defer is scheduler handled and notice to user
         logger.log(util.format("Task [%d] Start", this._id));
-        try {
-            var ret = this.run();
-            return new Promise(ret);
-        } catch (ex) {
-            logger.error(ex);
-            return new Promise(ex);
-        }
+        return promise(this.run);
+        // try {
+        //     var ret = this.run();
+        //     return new Promise(ret);
+        // } catch (ex) {
+        //     logger.error(ex);
+        //     return new Promise(ex);
+        // }
     }
     this._succ = function(res) {
         logger.log(util.format("Task [%d] Succ", this._id));

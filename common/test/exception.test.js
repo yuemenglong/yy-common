@@ -24,6 +24,7 @@ describe('Exception', function() {
         } catch (err) {
             var ex = new Exception(err);
             // logger.log(JSON.stringify(ex));
+            ex.err.should.eql("Test");
             ex.should.eql(err);
             ex.stack.should.eql(err.stack);
         }

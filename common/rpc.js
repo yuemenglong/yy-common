@@ -1,6 +1,6 @@
 var logger = require("./logger");
 var Exception = require("./exception");
-var Promise = require("./promise");
+var promise = require("./promise");
 var kit = require("./kit");
 var HttpClient = require("./http_client");
 
@@ -13,9 +13,9 @@ var fs = require("fs");
 var RPC_ERROR = "RPC_ERROR";
 
 function invoke_server(func, service, req, res, json) {
-    var promise = new Promise();
+    // var promise = new Promise();
     var params = req.params || {};
-    return promise.then(function() {
+    return promise(function() {
         // var args = [].slice.call(params)
         var args = [];
         for (var i = 0; i < func.length; i++) {
@@ -338,8 +338,8 @@ function RPC() {
                 var act_path = (path == "/" ? "" : path) + pack.path;
                 ret[i] = function() {
                     var args = arguments;
-                    var promise = new Promise();
-                    return promise.then(function() {
+                    // var promise = new Promise();
+                    return promise(function() {
                         if (args.length != func.length) {
                             throw new Exception(
                                 RPC_ERROR,

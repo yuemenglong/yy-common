@@ -1,6 +1,6 @@
 var logger = require("../logger");
 var Q = require("q");
-var Promise = require("../promise");
+var promise = require("../promise");
 var Exception = require("../exception");
 
 require("should");
@@ -10,7 +10,8 @@ describe('Promise', function() {
         function A() {
             return "asdf";
         }
-        new Promise(A()).then(function(res) {
+        // new Promise(A()).then(function(res) {
+        promise(A).then(function(res) {
             res.should.eql("asdf");
             return res;
         }).then(function(res) {
@@ -30,16 +31,17 @@ describe('Promise', function() {
             done();
         });
     });
-    it('Transport Return', function(done) {
-        var defer = Q.defer();
-        var p = new Promise(defer.promise);
-        p.should.eql(defer.promise);
-        var p2 = new Promise(p);
-        p2.should.eql(p);
-
-        var p3 = new Promise(true);
-        var p4 = new Promise(p3);
-        p4.should.eql(p3);
-        done();
+    it('Return Real Promise', function(done) {
+        promise(function() {
+            var defer = Q.defer();
+            setTimeout(function() {
+                defer.resolve("OK");
+            }, 100);
+            return defer.promise;
+        }).then(function(data) {
+            data.should.eql("OK");
+        }).done(function() {
+            done();
+        });
     });
 });
