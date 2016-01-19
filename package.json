@@ -1,6 +1,6 @@
 {
   "name": "yy-common",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "yuemenglong's nodejs common lib",
   "main": "index.js",
   "dependencies": {
@@ -31,5 +31,8 @@
     "url": "https://github.com/yuemenglong/yy-common/issues"
   },
   "homepage": "https://github.com/yuemenglong/yy-common#readme",
-  "devDependencies": {}
+  "devDependencies": {},
+  "directories": {
+    "test": "test"
+  }
 }

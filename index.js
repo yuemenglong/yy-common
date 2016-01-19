@@ -17,7 +17,7 @@ module.exports = {
     logger: logger,
     loop: loop,
     promise: promise,
-    Reader: reader,
+    Reader: Reader,
     rpc: rpc,
     Scheduler: Scheduler,
     Task: Task,
