@@ -7,7 +7,7 @@ var promise = require("./common/promise");
 var Reader = require("./common/reader");
 var rpc = require("./common/rpc");
 var Scheduler = require("./common/scheduler");
-var Task = require("../common/task");
+var Task = require("./common/task");
 var time = require("./common/time");
 
 module.exports = {
