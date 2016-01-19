@@ -6,7 +6,7 @@ var promise = require("./common/promise");
 var rpc = require("./common/rpc");
 var time = require("./common/time");
 
-return {
+module.exports = {
     Exception: Exception,
     HttpClient: HttpClient,
     kit: kit,
