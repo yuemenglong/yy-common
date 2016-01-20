@@ -2,5 +2,7 @@ var should = require("should");
 
 var common = require("../index")
 var logger = common.logger;
+var HttpClient = common.HttpClient;
 
-logger.log("hello world");
+var client = new HttpClient();
+client.get("http://www.baidu.com").done();

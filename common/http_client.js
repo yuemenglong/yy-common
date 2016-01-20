@@ -45,6 +45,13 @@ function HttpClient() {
         headers["Cookie"] = cookie;
     }
 
+    function set_headers(headers) {
+        headers = headers || {};
+        headers["Connection"] = headers["Connection"] || "keep-alive";
+        set_cookie(headers);
+        return headers;
+    }
+
     function defered(defer, req, res) {
         handle_set_cookie(res.headers);
         // var ret = "";
@@ -72,21 +79,28 @@ function HttpClient() {
         });
     }
 
-    function request(parsed, opt, content) {
+    function request(url, method, headers, content) {
         var defer = Q.defer();
-        set_cookie(opt.headers);
+        headers = set_headers(headers);
+        var parsed = URL.parse(url);
+        var opt = {
+            host: parsed.hostname,
+            path: parsed.path,
+            method: method,
+            headers: headers,
+        }
         var req = undefined;
-        var res_ = undefined;
+        var res = undefined;
         if (parsed.protocol == "https:") {
             opt.port = parsed.port || 443;
-            req = https.request(opt, function(res) {
-                res_ = res;
+            req = https.request(opt, function(response) {
+                res = response;
                 defered(defer, req, res);
             });
         } else if (parsed.protocol == "http:") {
             opt.port = parsed.port || 80;
-            req = http.request(opt, function(res) {
-                res_ = res;
+            req = http.request(opt, function(response) {
+                res = response;
                 defered(defer, req, res);
             });
         } else {
@@ -105,19 +119,23 @@ function HttpClient() {
         });
         if (_timeout) {
             req.setTimeout(_timeout, function() {
-                if (res_ && res_.finished) {
+                if (res && res.finished) {
                     return;
                 }
                 req.abort();
                 defer.reject(new Exception(
                     HTTP_TIMEOUT_ERROR,
-                    "Http Request Timeout",
-                    _timeout
+                    "Http Request Timeout", {
+                        timeout: _timeout,
+                        url: url,
+                    }
                 ));
             });
         }
         return defer.promise;
     }
+
+
 
     this.set_timeout = function(timeout) {
         _timeout = timeout;
@@ -138,71 +156,29 @@ function HttpClient() {
     }
 
     this.get = function(url, headers) {
-        if (!headers) {
-            headers = {};
-        }
-        headers["Connection"] = "keep-alive";
-        var parsed = URL.parse(url);
-        var opt = {
-            host: parsed.hostname,
-            path: parsed.path,
-            method: "GET",
-            headers: headers,
-        }
-        return request(parsed, opt);
+        headers = headers || {};
+        return request(url, "GET", headers);
     }
 
     this.delete = function(url, headers) {
-        if (!headers) {
-            headers = {};
-        }
-        headers["Connection"] = "keep-alive";
-        var parsed = URL.parse(url);
-        var opt = {
-            host: parsed.hostname,
-            path: parsed.path,
-            method: "DELETE",
-            headers: headers,
-        }
-        return request(parsed, opt);
+        headers = headers || {};
+        return request(url, "DELETE", headers);
     }
 
-    this.post = function(url, param, headers) {
-        if (!headers) {
-            headers = {};
-        }
+    this.form = function(url, param, headers) {
+        headers = headers || {};
         var content = querystring.stringify(param);
-        headers["Connection"] = "keep-alive";
         headers["Content-Type"] = "application/x-www-form-urlencoded; charset=UTF-8"
         headers["Content-Length"] = content.length;
-        var parsed = URL.parse(url);
-        var opt = {
-            host: parsed.hostname,
-            path: parsed.path,
-            method: "POST",
-            headers: headers,
-        }
-        return request(parsed, opt, content);
+        return request(url, "POST", headers, content);
     }
 
-    this.form = this.post;
-
     this.json = function(url, obj, headers) {
-        if (!headers) {
-            headers = {};
-        }
+        headers = headers || {};
         var content = JSON.stringify(obj);
-        headers["Connection"] = "keep-alive";
         headers["Content-Type"] = "application/json; charset=UTF-8";
         headers["Content-Length"] = content.length;
-        var parsed = URL.parse(url);
-        var opt = {
-            host: parsed.hostname,
-            path: parsed.path,
-            method: "POST",
-            headers: headers,
-        }
-        return request(parsed, opt, content);
+        return request(url, "POST", headers, content);
     }
 };
 

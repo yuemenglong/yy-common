@@ -8,7 +8,7 @@ var Reader = require("./common/reader");
 var rpc = require("./common/rpc");
 var Scheduler = require("./common/scheduler");
 var Task = require("./common/task");
-var time = require("./common/time");
+var Time = require("./common/time");
 
 module.exports = {
     Exception: Exception,
@@ -21,5 +21,5 @@ module.exports = {
     rpc: rpc,
     Scheduler: Scheduler,
     Task: Task,
-    time: time,
+    Time: Time,
 }
