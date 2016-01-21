@@ -60,10 +60,33 @@ describe('RPC', function() {
         var obj = {
             a: 1
         };
-        client.serve(a).then(function(res) {
+        client.serve(obj).then(function(res) {
             res.should.eql(obj);
         }).done(function() {
             rpc.stop();
+            done();
+        });
+    });
+    it('Delete Test', function(done) {
+        var gid = undefined;
+
+        function Service() {
+            this.serve = function(id) {
+                gid = Number(id);
+            }
+            rpc.delete(this.serve, "/:0");
+        }
+        var service = new Service();
+
+        rpc.server(service, "/", 80);
+        rpc.start();
+        var client = rpc.client(service, "/", "localhost");
+        client.serve(100).then(function(res) {
+            logger.log(res);
+            gid.should.eql(100);
+        }).done(function() {
+            rpc.stop();
+            done();
         });
     });
 });

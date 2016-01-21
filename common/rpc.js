@@ -109,7 +109,7 @@ function Delete(pack) {
 
 function RPC() {
 
-    var method_table = {
+    var handler_table = {
         "get": Get,
         "delete": Delete,
         "json": Json,
@@ -135,32 +135,9 @@ function RPC() {
                 }
             )
         }
-        // func.__RPC__ = new Get(func, path);
         func.__RPC__ = {
-            method: "get",
-            // func: func,
-            path: path
-        };
-    }
-    this.json = function(func, path) {
-        var match = path.match(/:\d/g);
-        match = match ? match : {
-            length: 0
-        };
-        if (match.length + 1 != func.length) {
-            throw new Exception(
-                RPC_ERROR,
-                "Func Arguments And Path Params Not Match", {
-                    func: func.length,
-                    path: match.length + 1,
-                    info: path,
-                }
-            )
-        }
-        // func.__RPC__ = new Post(func, path);
-        func.__RPC__ = {
-            method: "json",
-            // func: func,
+            app_method: "get",
+            client_method: "get",
             path: path
         };
     }
@@ -179,10 +156,30 @@ function RPC() {
                 }
             )
         }
-        // func.__RPC__ = new Delete(func, path);
         func.__RPC__ = {
-            method: "delete",
-            // func: func,
+            app_method: "delete",
+            client_method: "delete",
+            path: path
+        };
+    }
+    this.json = function(func, path) {
+        var match = path.match(/:\d/g);
+        match = match ? match : {
+            length: 0
+        };
+        if (match.length + 1 != func.length) {
+            throw new Exception(
+                RPC_ERROR,
+                "Func Arguments And Path Params Not Match", {
+                    func: func.length,
+                    path: match.length + 1,
+                    info: path,
+                }
+            )
+        }
+        func.__RPC__ = {
+            app_method: "post",
+            client_method: "json",
             path: path
         };
     }
@@ -266,19 +263,19 @@ function RPC() {
 
             ! function(func, name) {
                 var pack = func.__RPC__;
-                var method = new method_table[pack.method](pack);
+                var handler = new handler_table[pack.client_method](pack);
                 var act_path = (path == "/" ? "" : path) + pack.path;
                 logger.log(util.format("%s [%d] [%s.%s] [%s]",
-                    pack.method.toUpperCase(), port,
+                    pack.client_method.toUpperCase(), port,
                     class_name, name, act_path));
 
-                app[pack.method](act_path, function(req, res) {
+                app[pack.app_method](act_path, function(req, res) {
                     var req_info = util.format("%s: %s [%s.%s]",
-                        pack.method.toUpperCase(), req.url, class_name, name);
+                        pack.client_method.toUpperCase(), req.url, class_name, name);
                     var req_body = kit.empty(req.body) ? "" : "\n" + JSON.stringify(req.body);
                     logger.log("Request " + req_info + req_body);
 
-                    method.invoke_server(service, func, req, res).then(function(data) {
+                    handler.invoke_server(service, func, req, res).then(function(data) {
                         var res_body = data ? "\n" + JSON.stringify(data) : "";
                         if (data == undefined) {
                             logger.log("Response " + req_info);
@@ -334,7 +331,7 @@ function RPC() {
             //
             ! function(func, name) {
                 var pack = func.__RPC__;
-                var method = new method_table[pack.method](pack);
+                var handler = new handler_table[pack.client_method](pack);
                 var act_path = (path == "/" ? "" : path) + pack.path;
                 ret[i] = function() {
                     var args = arguments;
@@ -351,7 +348,7 @@ function RPC() {
                             );
                         }
                         // this.invoke_client = function(client, host, path, args)
-                        return method.invoke_client(client, func, host, act_path, args);
+                        return handler.invoke_client(client, func, host, act_path, args);
                     });
                 }
             }(func, i);
