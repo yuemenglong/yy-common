@@ -114,6 +114,23 @@ describe('Repeat', function() {
         }).done();
     });
 
+    it('Repeat Break/Cont Plain Value And No Return', function(done) {
+        var cur = 0;
+        loop.repeat(function(data, loop) {
+            cur++;
+            if (data >= 2) {
+                loop.brk(10);
+                return 100;
+            } else {
+                loop.cont(data + 1);
+            }
+        }, 1).then(function(data) {
+            data.should.eql(10);
+            cur.should.eql(2);
+            done();
+        }).done();
+    });
+
     it('No Data Param', function(done) {
         var cur = 0;
         var data = 1;

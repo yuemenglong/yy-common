@@ -7,6 +7,15 @@ var promise = require("./promise");
 var LOOP_ERROR = "LOOP_ERROR";
 var RETRY_MAX_TIMES_ERROR = "RETRY_MAX_TIMES_ERROR";
 
+function safe_return() {
+    for (var i = 0; i < arguments.length; i++) {
+        if (arguments[i] !== undefined) {
+            return arguments[i];
+        }
+    }
+    return undefined;
+}
+
 function Loop() {
 
     this.repeat = function(func, data, sleep) {
@@ -45,19 +54,22 @@ function Loop() {
 
             return promise(function() {
                 var ret = data === undefined ? func(_ctrl, _ctrl) : func(data, _ctrl);
-                if (ret !== undefined) {
-                    return ret;
+                if (_ret !== undefined || ret !== undefined) {
+                    // return _ret || ret;
+                    return safe_return(_ret, ret);
                 } else {
                     _defer = Q.defer();
                     return _defer.promise;
                 }
             }).then(function(ret) {
                 if (_finish) {
-                    ret = _ret || ret;
-                    return ret;
+                    // ret = _ret || ret;
+                    // return ret;
+                    return safe_return(_ret, ret);
                 } else {
-                    data = _ret || ret || data;
-                    return _next_repeat(func, data);
+                    // data = _ret || ret || data;
+                    // return _next_repeat(func, data);
+                    return _next_repeat(func, safe_return(_ret, ret, data));
                 }
             });
         }

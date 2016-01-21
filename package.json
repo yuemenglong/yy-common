@@ -1,6 +1,6 @@
 {
   "name": "yy-common",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "yuemenglong's nodejs common lib",
   "main": "index.js",
   "dependencies": {
