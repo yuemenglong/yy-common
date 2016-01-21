@@ -10,18 +10,24 @@ function Exception(err, errmsg, detail) {
     if (is_exception(detail)) {
         return detail;
     }
+    if (is_error(detail)) {
+        return new Exception(detail);
+    }
+    var ex = this;
     if (is_error(err)) {
         this.err = err.__proto__.name;
         this.errmsg = err.message;
         this.detail = {};
-        this.__proto__.stack = err.stack;
+        Object.defineProperty(this, "stack", {
+            get: function() {
+                return err.stack;
+            },
+        });
     } else {
         this.err = err || "Unknown";
         this.errmsg = errmsg || "Unknown";
         if (!detail) {
             this.detail = {};
-        } else if (is_error(detail)) {
-            this.detail = new Exception(detail);
         } else if (typeof detail == "object") {
             this.detail = kit.copy(detail);
         } else {
@@ -31,15 +37,23 @@ function Exception(err, errmsg, detail) {
         }
         Error.captureStackTrace(this, Exception);
     }
-    this.__proto__.message = JSON.stringify(this);
+    Object.defineProperty(this, "message", {
+        get: function() {
+            return JSON.stringify(ex);
+        },
+    });
 }
 
 util.inherits(Exception, Error)
-Exception.prototype.name = 'Exception'
+Exception.prototype.name = 'Exception';
 
 Exception.parse = function(json) {
     var obj = JSON.parse(json);
-    return new Exception(obj.err, obj.errmsg, obj.detail);
+    if (obj.err && obj.detail) {
+        return new Exception(obj.err, obj.errmsg, obj.detail);
+    } else {
+        return undefined;
+    }
 }
 
 function is_error(obj) {

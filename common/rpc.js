@@ -52,6 +52,15 @@ function invoke_client(client, method, host, path, func, args, json) {
     logger.log(call_info);
     return client[method](url, json).then(function(res) {
         if (res.statusCode != 200) {
+            var fail_info = util.format("Fail %s: %s%s", method.toUpperCase(), url,
+                res.data ? "\n" + res.data : "");
+            logger.log(fail_info);
+            var ex = Exception.parse(res.data);
+            if (ex) {
+                ex.detail.status = res.statusCode;
+                ex.detail.url = url;
+                throw ex;
+            }
             throw new Exception(
                 RPC_ERROR,
                 "Invalid Status Code", {
@@ -116,10 +125,6 @@ function RPC() {
     }
     var _app_table = {};
 
-    function _merge(func, obj) {
-        func.__RPC__ = kit.concat(func.__RPC__ || {}, obj);
-    }
-
     this.get = function(func, path) {
         var match = path.match(/:\d/g);
         match = match ? match : {
@@ -183,16 +188,6 @@ function RPC() {
             path: path
         };
     }
-
-    // this.on = function(func, event, cb) {
-    //     var add = {
-    //         on: [{
-    //             event: event,
-    //             cb: cb
-    //         }]
-    //     }
-    //     _merge(func, add);
-    // }
 
     this.abort = function(func, cb) {
         if (!func.__RPC__) {
