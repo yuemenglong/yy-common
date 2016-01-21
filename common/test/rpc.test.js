@@ -33,7 +33,9 @@ describe('RPC', function() {
         rpc.start();
         var client = rpc.client(service, "/", "localhost");
         client.set_timeout(1000);
-        client.serve().fail(function(err) {
+        client.serve().then(function() {
+            false.should.be.ok;
+        }).fail(function(err) {
             // logger.log(err);
             // logger.log(err.stack);
         }).done();
@@ -42,5 +44,26 @@ describe('RPC', function() {
             rpc.stop();
             done();
         }, 3000);
+    });
+    it('Json Test', function(done) {
+        function Service() {
+            this.serve = function(obj) {
+                return obj
+            }
+            rpc.json(this.serve, "/");
+        }
+        var service = new Service();
+
+        rpc.server(service, "/", 80);
+        rpc.start();
+        var client = rpc.client(service, "/", "localhost");
+        var obj = {
+            a: 1
+        };
+        client.serve(a).then(function(res) {
+            res.should.eql(obj);
+        }).done(function() {
+            rpc.stop();
+        });
     });
 });

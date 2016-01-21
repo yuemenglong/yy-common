@@ -83,7 +83,7 @@ function Get(pack) {
     }
 }
 
-function Post(pack) {
+function Json(pack) {
 
     this.invoke_server = function(service, func, req, res) {
         return invoke_server(func, service, req, res, req.body);
@@ -111,8 +111,8 @@ function RPC() {
 
     var method_table = {
         "get": Get,
-        "post": Post,
         "delete": Delete,
+        "json": Json,
     }
     var _app_table = {};
 
@@ -142,7 +142,7 @@ function RPC() {
             path: path
         };
     }
-    this.post = function(func, path) {
+    this.json = function(func, path) {
         var match = path.match(/:\d/g);
         match = match ? match : {
             length: 0
@@ -159,7 +159,7 @@ function RPC() {
         }
         // func.__RPC__ = new Post(func, path);
         func.__RPC__ = {
-            method: "post",
+            method: "json",
             // func: func,
             path: path
         };
