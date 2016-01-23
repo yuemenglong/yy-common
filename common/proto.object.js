@@ -28,3 +28,22 @@ if (Object.prototype.concat === undefined) {
         enumerable: false
     });
 }
+
+if (Object.prototype.array === undefined) {
+    Object.prototype.array = function() {
+        if (typeof this === "array") {
+            return this;
+        }
+        if (this.length === undefined) {
+            return undefined;
+        }
+        var ret = [];
+        for (var i = 0; i < this.length; i++) {
+            ret.push(this[i]);
+        }
+        return ret;
+    }
+    Object.defineProperty(Object.prototype, "array", {
+        enumerable: false
+    });
+}

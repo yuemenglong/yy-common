@@ -4,7 +4,7 @@ var common = require("../..");
 var Exception = common.Exception;
 var logger = common.logger;
 
-describe('Concat', function() {
+describe('Object', function() {
     it('Concat', function(done) {
         var a = {
             a: 1
@@ -17,6 +17,16 @@ describe('Concat', function() {
             a: 1,
             b: 2,
         })
+        done();
+    });
+});
+
+describe('Object', function() {
+    it('Array', function(done) {
+        function A(a, b, c) {
+            arguments.array().should.eql([1, 2, 3]);
+        }
+        A(1, 2, 3);
         done();
     });
 });
