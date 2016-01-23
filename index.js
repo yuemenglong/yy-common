@@ -2,7 +2,11 @@ require("./common/proto.function.js");
 require("./common/proto.object.js");
 require("./common/proto.date.js");
 
+var Q = require("q");
+Q.longStackSupport = true;
+
 var Exception = require("./common/exception");
+var fx = require("./common/fx");
 var HttpClient = require("./common/http_client");
 var kit = require("./common/kit");
 var logger = require("./common/logger");
@@ -16,6 +20,7 @@ var Time = require("./common/time");
 
 var common = {
     Exception: Exception,
+    fx: fx,
     HttpClient: HttpClient,
     kit: kit,
     logger: logger,

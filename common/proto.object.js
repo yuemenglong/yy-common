@@ -20,15 +20,11 @@ Object.proto("concat", function(obj) {
 });
 
 Object.proto("array", function() {
-    if (typeof this === "array") {
+    if (Array.isArray(this)) {
         return this;
     }
-    if (this.length === undefined) {
+    if (this.constructor !== Object || this.length === undefined) {
         return undefined;
     }
-    var ret = [];
-    for (var i = 0; i < this.length; i++) {
-        ret.push(this[i]);
-    }
-    return ret;
+    return Array.prototype.slice.apply(this)
 });

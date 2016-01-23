@@ -19,14 +19,13 @@ describe('Object', function() {
         })
         done();
     });
-});
 
-describe('Object', function() {
     it('Array', function(done) {
         function A(a, b, c) {
             arguments.array().should.eql([1, 2, 3]);
         }
         A(1, 2, 3);
+        should("a".array()).eql(undefined);
         done();
     });
 });
