@@ -1,9 +1,9 @@
-var logger = require("../logger");
-var Q = require("q");
-var assert = require('assert');
-var Exception = require("../exception");
+var should = require("should");
 
-require("should");
+var common = require("../..");
+var Exception = common.Exception;
+var logger = common.logger;
+
 
 describe('Exception', function() {
     it('Trans Error To Exception', function(done) {

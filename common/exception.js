@@ -29,7 +29,7 @@ function Exception(err, errmsg, detail) {
         if (!detail) {
             this.detail = {};
         } else if (typeof detail == "object") {
-            this.detail = kit.copy(detail);
+            this.detail = detail.clone();
         } else {
             this.detail = {
                 data: detail,

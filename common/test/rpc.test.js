@@ -1,8 +1,10 @@
-var loop = require("../loop");
-var logger = require("../logger");
+var should = require("should");
 var Q = require("q");
-var kit = require("../kit");
-var rpc = require("../rpc");
+
+var common = require("../..");
+var Exception = common.Exception;
+var logger = common.logger;
+var rpc = common.rpc;
 
 require("should");
 

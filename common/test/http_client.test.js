@@ -1,9 +1,10 @@
-var logger = require("../logger");
-var Q = require("q");
-var rpc = require("../rpc");
-var HttpClient = require("../http_client");
-
 var should = require("should");
+
+var common = require("../..");
+var Exception = common.Exception;
+var logger = common.logger;
+var rpc = common.rpc;
+var HttpClient = common.HttpClient;
 
 describe('Http Client', function() {
     it('Basic', function(done) {

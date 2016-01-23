@@ -1,3 +1,7 @@
+require("./common/proto.object.js");
+require("./common/proto.function.js");
+require("./common/proto.date.js");
+
 var Exception = require("./common/exception");
 var HttpClient = require("./common/http_client");
 var kit = require("./common/kit");
@@ -10,7 +14,7 @@ var Scheduler = require("./common/scheduler");
 var Task = require("./common/task");
 var Time = require("./common/time");
 
-module.exports = {
+var common = {
     Exception: Exception,
     HttpClient: HttpClient,
     kit: kit,
@@ -23,3 +27,7 @@ module.exports = {
     Task: Task,
     Time: Time,
 }
+
+module.exports = common;
+
+

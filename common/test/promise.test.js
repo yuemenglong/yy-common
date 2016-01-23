@@ -1,9 +1,11 @@
-var logger = require("../logger");
+var should = require("should");
 var Q = require("q");
-var promise = require("../promise");
-var Exception = require("../exception");
 
-require("should");
+var common = require("../..");
+var Exception = common.Exception;
+var logger = common.logger;
+var promise = common.promise;
+
 
 describe('Promise', function() {
     it('Basic', function(done) {

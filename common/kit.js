@@ -61,6 +61,15 @@ function Kit() {
         }
     }
 
+    this.first_valid = function() {
+        for (var i = 0; i < arguments.length; i++) {
+            if (arguments[i] !== undefined) {
+                return arguments[i];
+            }
+        }
+        return undefined;
+    }
+
     this.mkdir = function(path) {
         if (!fs.existsSync(path)) {
             fs.mkdirSync(path);
@@ -118,41 +127,6 @@ function Kit() {
         return ret;
     }
 
-    this.copy = function(obj) {
-        if (Array.isArray(obj)) {
-            return [].concat(obj);
-        }
-        if (typeof obj == "object") {
-            return JSON.parse(JSON.stringify(obj));
-        }
-        return obj;
-    }
-
-    this.format_date = function(date, fmt) {
-        if (!date) {
-            return undefined;
-        }
-        if (typeof date == "number") {
-            date = new Date(date);
-        }
-        fmt = fmt || "yyyy-MM-dd hh:mm:ss";
-        var o = {
-            "M+": date.getMonth() + 1, //月份   
-            "d+": date.getDate(), //日   
-            "h+": date.getHours(), //小时   
-            "m+": date.getMinutes(), //分   
-            "s+": date.getSeconds(), //秒   
-            "q+": Math.floor((date.getMonth() + 3) / 3), //季度   
-            "S": date.getMilliseconds() //毫秒   
-        };
-        if (/(y+)/.test(fmt))
-            fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-        for (var k in o)
-            if (new RegExp("(" + k + ")").test(fmt))
-                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-        return fmt;
-    }
-
     this.format_number = function(num, length) {
         var value = String(num);
         if (value.length >= length) {
@@ -174,13 +148,15 @@ function Kit() {
         return md5.digest("hex");
     }
 
-    this.func_body = function(func) {
-        var match = func.toString().match(/^function .*\(.*\)\{(.*)\}$/);
-        if (!match) {
-            return match;
+    this.overload = function(of, nf) {
+        return function() {
+            if (arguments.length == nf.length) {
+                return nf.apply(this, arguments);
+            } else {
+                return of.apply(this, arguments);
+            }
         }
-        return match;
-    };
+    }
 }
 var kit = new Kit();
 module.exports = kit;
