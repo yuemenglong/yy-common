@@ -1,44 +1,33 @@
 var common = require("../");
 var Exception = common.Exception;
 
-
-if (Date.prototype.format === undefined) {
-    Date.prototype.format = function(fmt) {
-        fmt = fmt || "yyyy-MM-dd hh:mm:ss";
-        var pattern_table = {
-            "y+": this.getFullYear(),
-            "M+": this.getMonth() + 1,
-            "d+": this.getDate(),
-            "h+": this.getHours(),
-            "m+": this.getMinutes(),
-            "s+": this.getSeconds(),
-        }
-        var replace_table = {
-            "S": fmt_zero(this.getMilliseconds(), 3),
-        }
-
-        for (var i in pattern_table) {
-            fmt = fmt.replace(new RegExp(i), function(word) {
-                return fmt_zero(pattern_table[i], word.length);
-            });
-        }
-        for (var i in replace_table) {
-            fmt = fmt.replace(new RegExp(i), function(word) {
-                return replace_table[i];
-            });
-        }
-        return fmt;
+Date.proto("format", function(fmt) {
+    fmt = fmt || "yyyy-MM-dd hh:mm:ss";
+    var pattern_table = {
+        "y+": this.getFullYear(),
+        "M+": this.getMonth() + 1,
+        "d+": this.getDate(),
+        "h+": this.getHours(),
+        "m+": this.getMinutes(),
+        "s+": this.getSeconds(),
     }
-    Date.prototype.toString = function() {
-        return this.format();
+    var replace_table = {
+        "S": fmt_zero(this.getMilliseconds(), 3),
     }
-    Object.defineProperty(Date.prototype, "format", {
-        enumerable: false
-    });
-    Object.defineProperty(Date.prototype, "toString", {
-        enumerable: false
-    });
-}
+
+    for (var i in pattern_table) {
+        fmt = fmt.replace(new RegExp(i), function(word) {
+            return fmt_zero(pattern_table[i], word.length);
+        });
+    }
+    for (var i in replace_table) {
+        fmt = fmt.replace(new RegExp(i), function(word) {
+            return replace_table[i];
+        });
+    }
+    return fmt;
+});
+
 if (Date.parse === undefined) {
     Date.parse = function(str, fmt) {
         if (!str) {
@@ -86,9 +75,6 @@ if (Date.parse === undefined) {
         var ret = new Time(obj.y, obj.M - 1, obj.d, obj.h, obj.m, obj.s);
         return ret;
     }
-    Object.defineProperty(Date.prototype, "parse", {
-        enumerable: false
-    });
 }
 
 function fmt_zero(num, length) {

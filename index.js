@@ -1,5 +1,5 @@
-require("./common/proto.object.js");
 require("./common/proto.function.js");
+require("./common/proto.object.js");
 require("./common/proto.date.js");
 
 var Exception = require("./common/exception");
@@ -29,5 +29,3 @@ var common = {
 }
 
 module.exports = common;
-
-
