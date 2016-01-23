@@ -2,7 +2,8 @@ var regex = /^function .*?[\s\S]*?\(([\s\S]*?)\)\s*\{([\s\S]*)\}$/;
 
 function set_proto_func(obj, name, func) {
     if (obj.prototype[name] !== undefined) {
-        return;
+        throw new Error("Func Already Exists, " + name);
+        // return;
     }
     obj.prototype[name] = func;
     Object.defineProperty(obj.prototype, name, {
