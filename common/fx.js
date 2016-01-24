@@ -1,4 +1,4 @@
-var common = require("..");
+require("./proto");
 var Q = require("q");
 
 exports.deferize = function(func) {

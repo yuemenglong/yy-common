@@ -1,5 +1,4 @@
-var common = require("../");
-var Exception = common.Exception;
+// var Exception = require("./Exception");
 
 Date.proto("format", function(fmt) {
     fmt = fmt || "yyyy-MM-dd hh:mm:ss";
@@ -60,13 +59,14 @@ if (Date.parse === undefined) {
 
         var match = str.match(pattern);
         if (!match) {
-            throw new Exception(
-                TIME_ERROR,
-                "Invalid Parse Format", {
-                    str: str,
-                    fmt: fmt,
-                }
-            )
+            // throw new Exception(
+            //     TIME_ERROR,
+            //     "Invalid Parse Format", {
+            //         str: str,
+            //         fmt: fmt,
+            //     }
+            // )
+            return undefined;
         }
         var obj = {};
         for (var i in match) {
