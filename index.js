@@ -1,8 +1,5 @@
 require("./common/proto");
 
-// var Q = require("q");
-// Q.longStackSupport = true;
-
 var Exception = require("./common/exception");
 var fx = require("./common/fx");
 var HttpClient = require("./common/http_client");
