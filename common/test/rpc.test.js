@@ -1,10 +1,10 @@
 var should = require("should");
-var Q = require("q");
 
 var common = require("../..");
 var Exception = common.Exception;
 var logger = common.logger;
 var rpc = common.rpc;
+var Q = common.Q;
 
 require("should");
 

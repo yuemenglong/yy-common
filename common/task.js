@@ -1,11 +1,11 @@
 var async = require("async");
-var Q = require("q");
 var util = require("util");
 
 var logger = require("./logger");
 var loop = require("./loop");
 var promise = require("./promise");
 var Exception = require("./exception");
+var Q = require("./q");
 
 var _counter = 0;
 

@@ -1,10 +1,11 @@
 var should = require("should");
-var Q = require("q");
+// var Q = require("q");
 
 var common = require("../..");
 var Exception = common.Exception;
 var logger = common.logger;
 var loop = common.loop;
+var Q = common.Q;
 
 
 describe('Repeat', function() {

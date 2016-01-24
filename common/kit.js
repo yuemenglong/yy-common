@@ -1,5 +1,4 @@
 var fs = require("fs");
-var Q = require("q");
 var util = require("util");
 var crypto = require("crypto");
 

@@ -1,5 +1,4 @@
 var logger = require("../logger");
-var Q = require("q");
 var should = require("should");
 var Time = require("../time");
 

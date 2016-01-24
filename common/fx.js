@@ -1,5 +1,5 @@
 require("./proto");
-var Q = require("q");
+var Q = require("./q");
 
 exports.deferize = function(func) {
     if (typeof func !== "function") {

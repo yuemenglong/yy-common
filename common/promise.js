@@ -1,21 +1,14 @@
-var Q = require("q");
 var logger = require("./logger");
 var Exception = require("./exception");
+var Promise = require("bluebird");
 
 function promise(value) {
     if (typeof value === "function") {
-        return Q.Promise(function(resolve, reject) {
-            try {
-                var ret = value();
-                resolve(ret);
-            } catch (err) {
-                reject(new Exception(err));
-            }
-        }).fail(function(err) {
+        return Promise.try(value).catch(function(err) {
             throw new Exception(err);
         });
     } else {
-        return Q(value);
+        return Promise.resolve(value);
     }
 }
 

@@ -1,4 +1,4 @@
-var Q = require("q");
+var Q = require("./q");
 
 var logger = require("./logger");
 var Exception = require("./exception");

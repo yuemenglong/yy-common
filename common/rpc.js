@@ -7,7 +7,6 @@ var HttpClient = require("./http_client");
 var express = require("express");
 var bodyParser = require('body-parser');
 var util = require("util");
-var Q = require("q");
 var fs = require("fs");
 
 var RPC_ERROR = "RPC_ERROR";

@@ -1,9 +1,7 @@
-require("./common/proto.function.js");
-require("./common/proto.object.js");
-require("./common/proto.date.js");
+require("./common/proto");
 
-var Q = require("q");
-Q.longStackSupport = true;
+// var Q = require("q");
+// Q.longStackSupport = true;
 
 var Exception = require("./common/exception");
 var fx = require("./common/fx");
@@ -12,6 +10,7 @@ var kit = require("./common/kit");
 var logger = require("./common/logger");
 var loop = require("./common/loop");
 var promise = require("./common/promise");
+var Q = require("./common/q");
 var Reader = require("./common/reader");
 var rpc = require("./common/rpc");
 var Scheduler = require("./common/scheduler");
@@ -26,6 +25,7 @@ var common = {
     logger: logger,
     loop: loop,
     promise: promise,
+    Q: Q,
     Reader: Reader,
     rpc: rpc,
     Scheduler: Scheduler,

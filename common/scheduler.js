@@ -1,11 +1,10 @@
 var async = require("async");
-var Q = require("q");
 var util = require("util");
 
 var logger = require("./logger");
 var loop = require("./loop");
 var Task = require("./task");
-var Promise = require("./promise");
+var Q = require("./q");
 
 function Scheduler(limit, sleep) {
     var _task_list = [];

@@ -1,10 +1,11 @@
 var should = require("should");
-var Q = require("q");
+// var Q = require("q");
 
 var common = require("../..");
 var Exception = common.Exception;
 var logger = common.logger;
 var promise = common.promise;
+var Q = common.Q;
 
 
 describe('Promise', function() {
@@ -12,6 +13,7 @@ describe('Promise', function() {
         function A() {
             return "asdf";
         }
+        logger.log("asdf");
         // new Promise(A()).then(function(res) {
         promise(A).then(function(res) {
             res.should.eql("asdf");

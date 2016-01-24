@@ -2,11 +2,11 @@ var http = require("http");
 var https = require("https");
 var URL = require("url");
 var querystring = require("querystring");
-var Q = require("q");
 var util = require("util");
 var iconv = require('iconv-lite');
 
 var Exception = require("./exception");
+var Q = require("./q");
 
 var HTTP_ERROR = "HTTP_ERROR";
 var HTTP_TIMEOUT_ERROR = "HTTP_TIMEOUT_ERROR";
