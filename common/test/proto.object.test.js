@@ -28,4 +28,13 @@ describe('Object', function() {
         should("a".array()).eql(undefined);
         done();
     });
+
+    it('Keys', function(done) {
+        var obj = {
+            a: 1,
+            b: 2,
+        }
+        obj.keys().should.eql(["a", "b"]);
+        done();
+    });
 });

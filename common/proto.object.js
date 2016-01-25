@@ -28,3 +28,13 @@ Object.proto("array", function() {
     }
     return Array.prototype.slice.apply(this)
 });
+
+Object.proto("keys", function() {
+    var ret = [];
+    for (var i in this) {
+        if (this.hasOwnProperty(i)) {
+            ret.push(i);
+        }
+    }
+    return ret;
+})
