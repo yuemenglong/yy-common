@@ -7,7 +7,6 @@ var logger = common.logger;
 var loop = common.loop;
 var Q = common.Q;
 
-
 describe('Repeat', function() {
     it('Repeat Return Plain Value', function(done) {
         var cur = 0;
@@ -38,7 +37,7 @@ describe('Repeat', function() {
             }, 10);
             return defer.promise;
         }, 1).fail(function(ex) {
-            ex.err.should.eql(10);
+            ex.name.should.eql(10);
             cur.should.eql(2);
             done();
         }).done();
@@ -72,7 +71,7 @@ describe('Repeat', function() {
                 return data + 1;
             }
         }, 1).fail(function(ex) {
-            ex.err.should.eql(10);
+            ex.name.should.eql(10);
             cur.should.eql(2);
             done();
         }).done();
@@ -92,7 +91,7 @@ describe('Repeat', function() {
             })
             return defer.promise;
         }, 1).fail(function(ex) {
-            ex.err.should.eql(10);
+            ex.name.should.eql(10);
             cur.should.eql(2);
             done();
         }).done();
@@ -110,7 +109,7 @@ describe('Repeat', function() {
                 }
             })
         }, 1).fail(function(ex) {
-            ex.err.should.eql(10);
+            ex.name.should.eql(10);
             cur.should.eql(2);
             done();
         }).done();
@@ -147,7 +146,7 @@ describe('Repeat', function() {
                 }
             })
         }).fail(function(ex) {
-            ex.err.should.eql(10);
+            ex.name.should.eql(10);
             cur.should.eql(2);
             done();
         }).done();
@@ -201,7 +200,7 @@ describe('Retry', function() {
             }
             throw data + 1;
         }, 1, 3).fail(function(ex) {
-            ex.err.should.eql(2);
+            ex.name.should.eql(2);
             cur.should.eql(3);
             done();
         });
@@ -221,7 +220,7 @@ describe('Retry', function() {
             }, 10);
             return defer.promise;
         }, 1, 3).fail(function(ex) {
-            ex.err.should.eql(2);
+            ex.name.should.eql(2);
             done();
         });
     });

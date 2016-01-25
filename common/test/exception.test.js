@@ -12,8 +12,8 @@ describe('Exception', function() {
         } catch (err) {
             var ex = new Exception(err);
             // logger.log(JSON.stringify(ex));
-            ex.err.should.eql(err.name);
-            ex.errmsg.should.eql(err.message);
+            ex.name.should.eql(err.name);
+            ex.message.should.eql(err.message);
             ex.stack.should.eql(err.stack);
         }
         done();
@@ -24,7 +24,7 @@ describe('Exception', function() {
         } catch (err) {
             var ex = new Exception(err);
             // logger.log(JSON.stringify(ex));
-            ex.err.should.eql("Test");
+            ex.name.should.eql("Test");
             ex.should.eql(err);
             ex.stack.should.eql(err.stack);
         }

@@ -24,10 +24,10 @@ describe('Promise', function() {
         }).then(function(res) {
             false.should.be.ok;
         }).fail(function(err) {
-            err.err.should.eql("TEST_ERROR");
+            err.name.should.eql("TEST_ERROR");
             throw err;
         }).fail(function(err) {
-            err.err.should.eql("TEST_ERROR");
+            err.name.should.eql("TEST_ERROR");
             return "handle";
         }).then(function(res) {
             res.should.eql("handle");
