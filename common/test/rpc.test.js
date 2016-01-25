@@ -6,6 +6,8 @@ var logger = common.logger;
 var rpc = common.rpc;
 var Q = common.Q;
 
+// logger.log = function() {}
+
 require("should");
 
 describe('RPC', function() {
@@ -23,7 +25,7 @@ describe('RPC', function() {
                 var defer = Q.defer();
                 setTimeout(function() {
                     defer.resolve("hello world");
-                }, 2000);
+                }, 100);
                 return defer.promise;
                 // return "hello world";
             }
@@ -34,7 +36,7 @@ describe('RPC', function() {
         rpc.server(service, "/", 80);
         rpc.start();
         var client = rpc.client(service, "/", "localhost");
-        client.set_timeout(1000);
+        client.set_timeout(50);
         client.serve().then(function() {
             false.should.be.ok;
         }).fail(function(err) {
@@ -45,7 +47,7 @@ describe('RPC', function() {
             abort.should.be.ok;
             rpc.stop();
             done();
-        }, 3000);
+        }, 200);
     });
     it('Json Test', function(done) {
         function Service() {

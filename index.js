@@ -1,4 +1,4 @@
-require("./common/proto");
+require("./common/proto.all");
 
 var Exception = require("./common/exception");
 var fx = require("./common/fx");

@@ -24,12 +24,12 @@ describe('Fx', function() {
 
     it('Decorate Prototype', function(done) {
         function A() {}
-        A.prototype.get = function() {
+        A.prototype.get = function(a, b, c) {
             return 1;
         }
         var a = new A();
-        a.get = fx.decorate(a.get, function(orig) {
-            return orig() + 1;
+        a.get = fx.decorate(a.get, function(a, b, c, $orig) {
+            return $orig(a, b, c) + 1;
         });
         var ret = a.get();
         ret.should.eql(2);

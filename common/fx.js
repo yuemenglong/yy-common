@@ -1,4 +1,4 @@
-require("./proto");
+require("./proto.all");
 var Q = require("./q");
 
 exports.deferize = function(func, pattern) {
@@ -62,7 +62,7 @@ exports.overload = function(of, nf) {
 exports.decorate = function(orig, decor) {
     return function() {
         var args = arguments.array();
-        for (var i = args.length; i < orig.length; i++) {
+        for (var i = args.length; i < decor.length - 1; i++) {
             args.push(undefined);
         }
         $orig = orig.bind(this);

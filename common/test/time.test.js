@@ -6,10 +6,8 @@ describe('Time', function() {
     it('Format And Parse', function(done) {
         var t1 = new Time();
         var str = t1.toString();
-        console.log(str);
         var t2 = Time.parse(str);
         var str2 = t2.toString();
-        console.log(str2);
         str.should.eql(str2);
         done();
     });

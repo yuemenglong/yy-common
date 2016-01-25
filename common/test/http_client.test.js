@@ -36,7 +36,7 @@ describe('Http Client', function() {
                 return new Promise(function(resolve, reject) {
                     setTimeout(function() {
                         resolve("OK");
-                    }, timeout * 1000);
+                    }, timeout * 100);
                 });
             }
             rpc.get(this.get, "/:0");
@@ -44,7 +44,7 @@ describe('Http Client', function() {
         rpc.server(new Service(), "/", 80);
         rpc.start();
         var client = new HttpClient();
-        client.set_timeout(3 * 1000);
+        client.set_timeout(3 * 100);
         client.get("http://localhost/1").then(function(res) {
             res.data.should.eql("OK");
         }).done(function() {
@@ -59,7 +59,7 @@ describe('Http Client', function() {
                 return new Promise(function(resolve, reject) {
                     setTimeout(function() {
                         resolve("OK");
-                    }, timeout * 1000);
+                    }, timeout * 100);
                 });
             }
             rpc.get(this.get, "/:0");
@@ -67,7 +67,7 @@ describe('Http Client', function() {
         rpc.server(new Service(), "/", 80);
         rpc.start();
         var client = new HttpClient();
-        client.set_timeout(500);
+        client.set_timeout(50);
         client.get("http://localhost/1").fail(function(err) {
             err.name.should.eql("HTTP_TIMEOUT_ERROR");
         }).done(function() {
