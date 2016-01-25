@@ -41,6 +41,18 @@ describe('Exception', function() {
         }
         done();
     });
+    it('Return Directly Error In Detail', function(done) {
+        try {
+            throw new Error("asdf");
+        } catch (err) {
+            var ex = new Exception("Test", "asdf", err);
+            // logger.log(JSON.stringify(ex));
+            ex.name.should.eql(err.name);
+            ex.message.should.eql(err.message);
+            ex.stack.should.eql(err.stack);
+        }
+        done();
+    });
     it('Instanceof Error', function(done) {
         try {
             throw new Exception("Test");
