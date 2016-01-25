@@ -6,7 +6,7 @@ var logger = common.logger;
 var fx = common.fx;
 
 
-describe('Func', function() {
+describe('Fx', function() {
     it('Decorate', function(done) {
         var a = 0;
 
@@ -34,5 +34,56 @@ describe('Func', function() {
         var ret = a.get();
         ret.should.eql(2);
         done();
+    });
+
+    it('Overload', function(done) {
+
+        function Orig(i) {
+            return i;
+        }
+        var f = fx.overload(Orig, function(i, j) {
+            return i + j;
+        });
+        f(10).should.eql(10);
+        f(10, 3).should.eql(13);
+        done();
+    });
+
+    it('Deferize', function(done) {
+        function func(err, res, cb) {
+            setTimeout(function() {
+                return cb(err, res);
+            }, 10);
+        }
+        var f = fx.deferize(func);
+        f(null, 4).then(function(res) {
+            res.should.eql(4);
+        }).done();
+        f(new Exception("TEST"), 4).then(function(res) {
+            false.should.be.ok;
+        }).fail(function(err) {
+            err.name.should.eql("TEST");
+        }).done(function() {
+            done();
+        });
+    });
+
+    it('Deferize2', function(done) {
+        function func(err, res, callback) {
+            setTimeout(function() {
+                return callback(err, res);
+            }, 10);
+        }
+        var f = fx.deferize(func);
+        f(null, 4).then(function(res) {
+            res.should.eql(4);
+        }).done();
+        f(new Exception("TEST"), 4).then(function(res) {
+            false.should.be.ok;
+        }).fail(function(err) {
+            err.name.should.eql("TEST");
+        }).done(function() {
+            done();
+        });
     });
 });

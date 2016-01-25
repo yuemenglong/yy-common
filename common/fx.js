@@ -1,18 +1,22 @@
 require("./proto");
 var Q = require("./q");
 
-exports.deferize = function(func) {
+exports.deferize = function(func, pattern) {
     if (typeof func !== "function") {
         return func;
     }
     if (func.$deferize === true) {
         return func;
     }
+    pattern = pattern || /(^cb)|(^callback)/;
     var last_arg = func.args().slice(-1)[0];
-    if (last_arg.indexOf("cb") != 0 &&
-        last_arg.indexOf("callback") != 0) {
+    if (!pattern.test(last_arg)) {
         return func;
     }
+    // if (last_arg.indexOf("cb") != 0 &&
+    //     last_arg.indexOf("callback") != 0) {
+    //     return func;
+    // }
     var ret = function() {
         if (arguments.length >= func.length ||
             typeof arguments[arguments.length - 1] === "function") {
