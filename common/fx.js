@@ -9,7 +9,7 @@ exports.deferize = function(func, pattern) {
         return func;
     }
     pattern = pattern || /(^cb)|(^callback)/;
-    var last_arg = func.args().slice(-1)[0];
+    var last_arg = func.$args().slice(-1)[0];
     if (!pattern.test(last_arg)) {
         return func;
     }
@@ -61,7 +61,7 @@ exports.overload = function(of, nf) {
 
 exports.decorate = function(orig, decor) {
     return function() {
-        var args = arguments.array();
+        var args = arguments.$array();
         for (var i = args.length; i < decor.length - 1; i++) {
             args.push(undefined);
         }

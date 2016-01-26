@@ -1,7 +1,7 @@
 // var Exception = require("./Exception");
 var fx = require("./fx");
 
-Date.proto("format", function(fmt) {
+Date.$proto("$format", function(fmt) {
     fmt = fmt || "yyyy-MM-dd hh:mm:ss";
     var pattern_table = {
         "y+": this.getFullYear(),
@@ -28,48 +28,51 @@ Date.proto("format", function(fmt) {
     return fmt;
 });
 
-Date.parse = fx.decorate(Date.parse, function(str, fmt, $orig) {
-    if (!str) {
-        return;
-    }
-    fmt = fmt || "yyyy-MM-dd hh:mm:ss";
-    var pattern_table = {
-        "y+": "y",
-        "M+": "M",
-        "d+": "d",
-        "h+": "h",
-        "m+": "m",
-        "s+": "s",
-    }
-    var replace_table = {
-        "S": "S",
-    }
+if (Date.$parse === undefined) {
+    Date.$parse = function(str, fmt) {
+        if (!str) {
+            return;
+        }
+        fmt = fmt || "yyyy-MM-dd hh:mm:ss";
+        var pattern_table = {
+            "y+": "y",
+            "M+": "M",
+            "d+": "d",
+            "h+": "h",
+            "m+": "m",
+            "s+": "s",
+        }
+        var replace_table = {
+            "S": "S",
+        }
 
-    var pattern = [];
-    for (var i in pattern_table) {
-        pattern.push(i);
-    }
-    pattern = "(" + pattern.join(")|(") + ")";
+        var pattern = [];
+        for (var i in pattern_table) {
+            pattern.push(i);
+        }
+        pattern = "(" + pattern.join(")|(") + ")";
 
-    var field_list = ["ALL"];
-    pattern = fmt.replace(new RegExp(pattern, "g"), function(word) {
-        field_list.push(word[0]);
-        return "(" + new Array(word.length + 1).join("\\d") + ")";
-    });
+        var field_list = ["ALL"];
+        pattern = fmt.replace(new RegExp(pattern, "g"), function(word) {
+            field_list.push(word[0]);
+            return "(" + new Array(word.length + 1).join("\\d") + ")";
+        });
 
-    var match = str.match(pattern);
-    if (!match) {
-        return $orig(str);
-    }
-    var obj = {};
-    for (var i in match) {
-        obj[field_list[i]] = match[i] || 0;
-    }
-    return Date.create(obj.y, obj.M, obj.d, obj.h, obj.m, obj.s);
-});
+        var match = str.match(pattern);
+        if (!match) {
+            return undefined;
+        }
+        var obj = {};
+        for (var i in match) {
+            obj[field_list[i]] = match[i] || 0;
+        }
+        return Date.$new(obj.y, obj.M, obj.d, obj.h, obj.m, obj.s);
+    };
+}
 
-if (Date.create === undefined) {
-    Date.create = function(y, M, d, h, m, s) {
+
+if (Date.$new === undefined) {
+    Date.$new = function(y, M, d, h, m, s) {
         return new Date(y, M - 1, d, h, m, s);
     }
 }

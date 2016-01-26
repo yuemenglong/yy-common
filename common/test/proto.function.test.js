@@ -9,8 +9,8 @@ describe('Function', function() {
         function A(a, b, cb) {
             return a + b;
         }
-        A.args().should.eql(["a", "b", "cb"]);
-        A.body().replace(/\s+/g, "").should.eql("returna+b;");
+        A.$args().should.eql(["a", "b", "cb"]);
+        A.$body().replace(/\s+/g, "").should.eql("returna+b;");
         done();
     });
 });

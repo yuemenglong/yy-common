@@ -12,7 +12,7 @@ describe('Object', function() {
         var b = {
             b: 2
         };
-        var c = a.concat(b);
+        var c = a.$concat(b);
         c.should.eql({
             a: 1,
             b: 2,
@@ -22,10 +22,10 @@ describe('Object', function() {
 
     it('Array', function(done) {
         function A(a, b, c) {
-            arguments.array().should.eql([1, 2, 3]);
+            arguments.$array().should.eql([1, 2, 3]);
         }
         A(1, 2, 3);
-        should("a".array()).eql(undefined);
+        should("a".$array()).eql(undefined);
         done();
     });
 
@@ -34,7 +34,7 @@ describe('Object', function() {
             a: 1,
             b: 2,
         }
-        obj.keys().should.eql(["a", "b"]);
+        obj.$keys().should.eql(["a", "b"]);
         done();
     });
 });
