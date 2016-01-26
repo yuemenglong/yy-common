@@ -1,4 +1,5 @@
 var fs = require("fs");
+var path = require("path");
 var util = require("util");
 var crypto = require("crypto");
 
@@ -69,10 +70,34 @@ function Kit() {
         return undefined;
     }
 
-    this.mkdir = function(path) {
-        if (!fs.existsSync(path)) {
-            fs.mkdirSync(path);
+    // this.mkdir = function(path) {
+    //     if (!fs.existsSync(path)) {
+    //         fs.mkdirSync(path);
+    //     }
+    // }
+
+    this.mkdirSync = function(dir, mode) {
+        dir = path.normalize(dir);
+        var folders = dir.split(path.sep);
+        var cur = undefined;
+        for (var i in folders) {
+            var folder = folders[i];
+            if (cur) {
+                cur = path.join(cur, folder);
+            } else {
+                cur = folder;
+            }
+            if (!fs.existsSync(cur)) {
+                fs.mkdirSync(cur, mode);
+            }
         }
+        return true;
+    }
+
+    this.writeFileSync = function(file, content) {
+        var dir = path.parse(file).dir;
+        kit.mkdirSync(dir);
+        fs.writeFileSync(file, content);
     }
 
     this.empty = function(obj) {

@@ -1,6 +1,6 @@
-Object.proto("clone", function() {
-    return JSON.parse(JSON.stringify(this));
-});
+// Object.proto("clone", function() {
+//     return JSON.parse(JSON.stringify(this));
+// });
 
 function concat(a, b) {
     if (typeof a == "object" && typeof b == "object") {
