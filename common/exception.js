@@ -32,14 +32,14 @@ function Exception(err, message, detail) {
 // util.inherits(Exception, Error)
 // Exception.prototype.name = 'Exception';
 
-Exception.prototype.format = function() {
+Exception.format = function(ex) {
     var ret = {
-        name: this.name,
-        message: this.message,
+        name: ex.name,
+        message: ex.message,
     }
-    for (var i in this) {
-        if (this.hasOwnProperty(i)) {
-            ret[i] = this[i];
+    for (var i in ex) {
+        if (ex.hasOwnProperty(i)) {
+            ret[i] = ex[i];
         }
     }
     return JSON.stringify(ret);

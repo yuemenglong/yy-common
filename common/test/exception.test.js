@@ -30,29 +30,6 @@ describe('Exception', function() {
         }
         done();
     });
-    it('Return Directly Exception In Detail', function(done) {
-        try {
-            throw new Exception("Test");
-        } catch (err) {
-            var ex = new Exception("Test", "asdf", err);
-            // logger.log(JSON.stringify(ex));
-            ex.should.eql(err);
-            ex.stack.should.eql(err.stack);
-        }
-        done();
-    });
-    it('Return Directly Error In Detail', function(done) {
-        try {
-            throw new Error("asdf");
-        } catch (err) {
-            var ex = new Exception("Test", "asdf", err);
-            // logger.log(JSON.stringify(ex));
-            ex.name.should.eql(err.name);
-            ex.message.should.eql(err.message);
-            ex.stack.should.eql(err.stack);
-        }
-        done();
-    });
     it('Instanceof Error', function(done) {
         try {
             throw new Exception("Test");
@@ -62,6 +39,43 @@ describe('Exception', function() {
             // logger.log(belong);
             belong.should.be.ok;
         }
+        done();
+    });
+    it('Merge Detail', function(done) {
+        try {
+            throw new Exception("Test", "Message", {
+                a: 1,
+                b: "hi",
+            });
+        } catch (ex) {
+            ex.name.should.eql("Test");
+            ex.message.should.eql("Message");
+            ex.a.should.eql(1);
+            ex.b.should.eql("hi");
+        }
+        done();
+    });
+    it('Merge Detail2', function(done) {
+        try {
+            throw new Exception("Test", "Message", "detail");
+        } catch (ex) {
+            ex.name.should.eql("Test");
+            ex.message.should.eql("Message");
+            ex.detail.should.eql("detail");
+        }
+        done();
+    });
+    it('Format And Parse', function(done) {
+        var ex = new Exception("TEST_ERROR", "Test Format", {
+            a: 1,
+            b: "hi",
+        });
+        var s = Exception.format(ex);
+        var err = Exception.parse(s);
+        err.name.should.eql(ex.name);
+        err.message.should.eql(ex.message);
+        err.a.should.eql(ex.a);
+        err.b.should.eql(ex.b);
         done();
     });
 });
