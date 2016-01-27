@@ -4,57 +4,50 @@ var kit = require("./kit");
 //Error     has {name, message, stack}
 //Exception has {name, message, detail, stack}
 function Exception(err, message, detail) {
-    if (is_exception(err)) {
-        return err;
-    }
-    if (is_exception(detail)) {
-        return detail;
-    }
-    if (is_error(detail)) {
-        return new Exception(detail);
-    }
     if (is_error(err)) {
-        // this.err = err.__proto__.name;
-        // this.errmsg = err.message;
-        // this.detail = {};
-        // Object.defineProperty(this, "stack", {
-        //     get: function() {
-        //         return err.stack;
-        //     },
-        // });
-        var ret = Object.create(err);
-        ret.detail = {};
-        return ret;
+        return err;
     }
     //create exception
     err = err || "UNKNOWN_ERROR";
-    // err = err.toString();
     message = message || "Unknown Message";
-    detail = detail || {};
-    if (typeof detail !== "object") {
-        detail = {
-            data: detail,
-        }
-    }
+    this.__proto__ = new Error(message);
     this.__proto__.name = err;
-    this.__proto__.message = message;
-    this.detail = detail;
+    // this.__proto__.message = message;
+    if (typeof detail === "object") {
+        for (var i in detail) {
+            if (detail.hasOwnProperty(i)) {
+                if (i === "name" || i === "message" || i === "stack") {
+                    continue;
+                }
+                this[i] = detail[i];
+            }
+        }
+    } else if (detail !== undefined) {
+        this.detail = detail;
+    }
     Error.captureStackTrace(this, Exception);
-    return;
-    // throw new Error("Invalid Params");
 }
 
 
-util.inherits(Exception, Error)
-Exception.prototype.name = 'Exception';
+// util.inherits(Exception, Error)
+// Exception.prototype.name = 'Exception';
+
+Exception.prototype.format = function() {
+    var ret = {
+        name: this.name,
+        message: this.message,
+    }
+    for (var i in this) {
+        if (this.hasOwnProperty(i)) {
+            ret[i] = this[i];
+        }
+    }
+    return JSON.stringify(ret);
+}
 
 Exception.parse = function(json) {
     var obj = JSON.parse(json);
-    if (obj.err && obj.detail) {
-        return new Exception(obj.err, obj.errmsg, obj.detail);
-    } else {
-        return undefined;
-    }
+    return new Exception(obj.name, obj.message, obj);
 }
 
 function is_error(obj) {
