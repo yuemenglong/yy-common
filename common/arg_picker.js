@@ -21,7 +21,9 @@ ArgPicker.prototype.nth = function(type, nth, from) {
     var rest = nth;
     for (var i = from; i < args.length; i++) {
         var arg = args[i];
-        if (typeof type === "string") {
+        if (type === "array") {
+            var belong = Array.isArray(arg);
+        } else if (typeof type === "string") {
             var belong = typeof arg === type;
         } else if (typeof type === "function") {
             var belong = arg instanceof type;
@@ -44,7 +46,9 @@ ArgPicker.prototype.rnth = function(type, nth, from) {
     var rest = nth;
     for (var i = from; i >= 0; i--) {
         var arg = args[i];
-        if (typeof type === "string") {
+        if (type === "array") {
+            var belong = Array.isArray(arg);
+        } else if (typeof type === "string") {
             var belong = typeof arg === type;
         } else if (typeof type === "function") {
             var belong = arg instanceof type;
