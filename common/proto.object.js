@@ -38,3 +38,13 @@ Object.$proto("$keys", function() {
     }
     return ret;
 })
+
+Object.$proto("$values", function() {
+    var ret = [];
+    for (var i in this) {
+        if (this.hasOwnProperty(i)) {
+            ret.push(this[i]);
+        }
+    }
+    return ret;
+})
