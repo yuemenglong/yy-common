@@ -1,5 +1,6 @@
 require("./common/proto.all");
 
+var ArgPicker = require("./common/arg_picker");
 var Exception = require("./common/exception");
 var fx = require("./common/fx");
 var HttpClient = require("./common/http_client");
@@ -15,6 +16,7 @@ var Task = require("./common/task");
 var Time = require("./common/time");
 
 var common = {
+    ArgPicker: ArgPicker,
     Exception: Exception,
     fx: fx,
     HttpClient: HttpClient,
