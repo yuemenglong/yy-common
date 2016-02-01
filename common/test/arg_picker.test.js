@@ -18,7 +18,12 @@ describe('ArgPicker', function() {
             fn.should.eql("1");
             sn.should.eql("2");
             t.should.eql(t2);
-            fn.should.eql(fn2); 
+            fn.should.eql(fn2);
+
+            var t3 = picker.first([T, "number"]);
+            t3.should.eql(t);
+            var sn2 = picker.rfirst(["string", F]);
+            sn2.should.eql(sn);
         }
 
         function T() {}
