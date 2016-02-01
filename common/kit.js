@@ -8,74 +8,6 @@ var Exception = require("./exception");
 
 function Kit() {
 
-    this.date_add = function(base, add) {
-        function month_code_to_num(code) {
-            return {
-                "JAN": 0,
-                "FEB": 1,
-                "MAR": 2,
-                "APR": 3,
-                "MAY": 4,
-                "JUN": 5,
-                "JUL": 6,
-                "AUG": 7,
-                "SEP": 8,
-                "OCT": 9,
-                "NOV": 10,
-                "DEC": 11,
-            }[code];
-        }
-
-        function month_num_to_code(num) {
-            return [
-                "JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-                "JUL", "AUG", "SEP", "OCT", "NOV", "DEC",
-            ][num];
-        }
-
-        function get_month(arg) {
-            if (typeof arg == "string") {
-                return month_code_to_num(arg);
-            } else if (typeof arg == "number") {
-                return month_num_to_code(arg);
-            } else {
-                return undefined;
-            }
-        }
-
-        var now = new Date();
-        var year = now.getYear() + 1900;
-        var month = get_month(base.month) + 1;
-        var day = base.day;
-        if (month < now.getMonth()) {
-            year += 1;
-        }
-        var date_str = util.format("%d/%d/%d", year, month, day);
-        var usecs = (new Date(date_str)).valueOf() + add * 24 * 60 * 60 * 1000;
-        var date = new Date(usecs);
-
-        return {
-            year: date.getYear() + 1900,
-            month: get_month(date.getMonth()),
-            day: date.getDate(),
-        }
-    }
-
-    this.first_valid = function() {
-        for (var i = 0; i < arguments.length; i++) {
-            if (arguments[i] !== undefined) {
-                return arguments[i];
-            }
-        }
-        return undefined;
-    }
-
-    // this.mkdir = function(path) {
-    //     if (!fs.existsSync(path)) {
-    //         fs.mkdirSync(path);
-    //     }
-    // }
-
     this.mkdirSync = function(dir, mode) {
         dir = path.normalize(dir);
         var folders = dir.split(path.sep);
@@ -124,8 +56,6 @@ function Kit() {
         }
     }
 
-    this.merge = this.concat;
-
     this.array_filter = function(arr) {
         arr.sort();
         var re = [arr[0]];
@@ -160,6 +90,33 @@ function Kit() {
         }
     }
 
+    this.format = function() {
+        function formatNumber(num, length) {
+            var value = String(num);
+            if (value.length >= length) {
+                return value.substr(-length, length);
+            } else {
+                return new Array(length - value.length + 1).join("0") + value;
+            }
+        }
+        var args = arguments.$array();
+        var fmt = args[0];
+        var pos = 0;
+        fmt = fmt.replace(/%(:?0\d+)?[sdj%]/, function(word) {
+            pos++;
+            var match = word.match(/%0(\d+)d/);
+            if (match) {
+                var length = parseInt(match[1]);
+                args[pos] = formatNumber(args[pos], length);
+                return "%s";
+            } else {
+                return word;
+            }
+        });
+        args[0] = fmt;
+        return util.format.apply(null, args);
+    }
+
     this.uid = function(obj) {
         obj = obj || "";
         if (typeof obj == "object") {
@@ -170,16 +127,6 @@ function Kit() {
         var str = JSON.stringify(obj);
         md5.update(str);
         return md5.digest("hex");
-    }
-
-    this.overload = function(of, nf) {
-        return function() {
-            if (arguments.length == nf.length) {
-                return nf.apply(this, arguments);
-            } else {
-                return of.apply(this, arguments);
-            }
-        }
     }
 }
 var kit = new Kit();
