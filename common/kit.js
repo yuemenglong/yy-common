@@ -117,6 +117,30 @@ function Kit() {
         return util.format.apply(null, args);
     }
 
+    this.stackInfo = function(n) {
+        n = n || 0;
+        // get call stack, and analyze it
+        // get all file,method and line number
+        var stacklist = (new Error()).stack.split('\n').slice(2 + n);
+        // Stack trace format :
+        // http://code.google.com/p/v8/wiki/JavaScriptStackTraceApi
+        // DON'T Remove the regex expresses to outside of method, there is a BUG in node.js!!!
+        var stackReg = /at\s+(.*)\s+\((.*):(\d*):(\d*)\)/gi;
+        var stackReg2 = /at\s+()(.*):(\d*):(\d*)/gi;
+        var data = {};
+        var s = stacklist[0];
+        var sp = stackReg.exec(s) || stackReg2.exec(s);
+        if (sp && sp.length === 5) {
+            data.method = sp[1];
+            data.path = sp[2];
+            data.line = sp[3];
+            data.pos = sp[4];
+            data.file = path.basename(data.path);
+            data.stack = stacklist.join('\n');
+        }
+        return data;
+    }
+
     this.uid = function(obj) {
         obj = obj || "";
         if (typeof obj == "object") {

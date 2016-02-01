@@ -86,7 +86,7 @@ describe('RPC', function() {
         rpc.start();
         var client = rpc.client(service, "/", "localhost");
         client.serve(100).then(function(res) {
-            logger.log(res);
+            res.should.be.false;
             gid.should.eql(100);
         }).done(function() {
             rpc.stop();

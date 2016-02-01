@@ -96,7 +96,7 @@ function Loop() {
                 throw ex;
             }
             if (cur > 0) {
-                logger.log("Retry " + cur);
+                logger.warn("Retry " + cur);
             }
             cur++;
             //fail must before then !!

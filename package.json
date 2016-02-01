@@ -10,9 +10,9 @@
     "cookie-parser": "^1.4.1",
     "express": "^4.13.3",
     "iconv-lite": "^0.4.13",
+    "log4js": "^0.6.30",
     "q": "^1.4.1",
-    "should": "^7.1.1",
-    "tracer": "^0.8.2"
+    "should": "^7.1.1"
   },
   "scripts": {
     "test": "mocha common/test"

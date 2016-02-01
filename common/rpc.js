@@ -48,12 +48,12 @@ function invoke_client(client, method, host, path, func, args, json) {
     url = util.format("http://%s%s", host, url);
     var call_info = util.format("Call %s: %s%s", method.toUpperCase(), url,
         json ? "\n" + JSON.stringify(json) : "");
-    logger.log(call_info);
+    logger.info(call_info);
     return client[method](url, json).then(function(res) {
         if (res.statusCode != 200) {
             var fail_info = util.format("Fail %s: %s%s", method.toUpperCase(), url,
                 res.data ? "\n" + res.data : "");
-            logger.log(fail_info);
+            logger.info(fail_info);
             var ex = Exception.parse(res.data);
             if (ex) {
                 ex.detail.status = res.statusCode;
@@ -71,7 +71,7 @@ function invoke_client(client, method, host, path, func, args, json) {
         }
         var reply_info = util.format("Reply %s: %s%s", method.toUpperCase(), url,
             res.data ? "\n" + res.data : "");
-        logger.log(reply_info);
+        logger.info(reply_info);
         if (res.headers["content-type"] && res.headers["content-type"].indexOf("json") >= 0) {
             return JSON.parse(res.data);
         } else {
@@ -203,7 +203,7 @@ function RPC() {
             var app = _app_table[i];
             var port = i;
             var server = app.listen(port, function(err) {
-                logger.log(util.format(
+                logger.info(util.format(
                     "RPC Server Start At Port %d Succ ............... ",
                     port));
             });
@@ -212,8 +212,8 @@ function RPC() {
             }
         }
         process.on('uncaughtException', function(err) {
-            // logger.log(err);
-            logger.log(err.stack);
+            logger.error(err);
+            logger.error(err.stack);
         });
     }
     this.stop = function() {
@@ -221,7 +221,7 @@ function RPC() {
             var app = _app_table[i];
             var port = i;
             app.close(function() {
-                logger.log(util.format(
+                logger.info(util.format(
                     "RPC Server Stop At Port %d ............... ",
                     port));
             });
@@ -259,7 +259,7 @@ function RPC() {
                 var pack = func.__RPC__;
                 var handler = new handler_table[pack.client_method](pack);
                 var act_path = (path == "/" ? "" : path) + pack.path;
-                logger.log(util.format("%s [%d] [%s.%s] [%s]",
+                logger.info(util.format("%s [%d] [%s.%s] [%s]",
                     pack.client_method.toUpperCase(), port,
                     class_name, name, act_path));
 
@@ -267,20 +267,20 @@ function RPC() {
                     var req_info = util.format("%s: %s [%s.%s]",
                         pack.client_method.toUpperCase(), req.url, class_name, name);
                     var req_body = kit.empty(req.body) ? "" : "\n" + JSON.stringify(req.body);
-                    logger.log("Request " + req_info + req_body);
+                    logger.info("Request " + req_info + req_body);
 
                     handler.invoke_server(service, func, req, res).then(function(data) {
                         var res_body = data ? "\n" + JSON.stringify(data) : "";
                         if (data == undefined) {
-                            logger.log("Response " + req_info);
+                            logger.info("Response " + req_info);
                             return res.end();
                         } else if (typeof data == "object") {
                             var res_body = data ? "\n" + JSON.stringify(data) : "";
-                            logger.log("Response " + req_info + res_body);
+                            logger.info("Response " + req_info + res_body);
                             return res.json(data);
                         } else {
                             var res_body = data ? "\n" + data : "";
-                            logger.log("Response " + req_info + res_body);
+                            logger.info("Response " + req_info + res_body);
                             return res.end(data.toString());
                         }
                     }).fail(function(ex) {
@@ -294,7 +294,7 @@ function RPC() {
 
                     if (pack.abort) {
                         req.on("close", function() {
-                            logger.log("Abort " + req_info);
+                            logger.warn("Abort " + req_info);
                             pack.abort();
                         });
                     }
