@@ -1,19 +1,19 @@
-require("./common/proto.all");
+require("./lib/proto.all");
 
-var ArgPicker = require("./common/arg_picker");
-var Exception = require("./common/exception");
-var fx = require("./common/fx");
-var HttpClient = require("./common/http_client");
-var kit = require("./common/kit");
-var logger = require("./common/logger");
-var loop = require("./common/loop");
-var promise = require("./common/promise");
-var Q = require("./common/q");
-var Reader = require("./common/reader");
-var rpc = require("./common/rpc");
-var Scheduler = require("./common/scheduler");
-var Task = require("./common/task");
-var Time = require("./common/time");
+var ArgPicker = require("./lib/arg_picker");
+var Exception = require("./lib/exception");
+var fx = require("./lib/fx");
+var HttpClient = require("./lib/http_client");
+var kit = require("./lib/kit");
+var logger = require("./lib/logger");
+var loop = require("./lib/loop");
+var promise = require("./lib/promise");
+var Q = require("./lib/q");
+var Reader = require("./lib/reader");
+var rpc = require("./lib/rpc");
+var Scheduler = require("./lib/scheduler");
+var Task = require("./lib/task");
+var Time = require("./lib/time");
 
 var common = {
     ArgPicker: ArgPicker,

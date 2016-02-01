@@ -15,7 +15,7 @@
     "should": "^7.1.1"
   },
   "scripts": {
-    "test": "mocha common/test"
+    "test": "mocha lib/test"
   },
   "repository": {
     "type": "git",
