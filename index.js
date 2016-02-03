@@ -12,6 +12,7 @@ var Q = require("./lib/q");
 var Reader = require("./lib/reader");
 var rpc = require("./lib/rpc");
 var Scheduler = require("./lib/scheduler");
+var Socket = require("./lib/socket");
 var Task = require("./lib/task");
 var Time = require("./lib/time");
 
@@ -28,6 +29,7 @@ var common = {
     Reader: Reader,
     rpc: rpc,
     Scheduler: Scheduler,
+    Socket: Socket,
     Task: Task,
     Time: Time,
 }
