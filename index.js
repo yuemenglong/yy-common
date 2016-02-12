@@ -3,6 +3,7 @@ require("./lib/proto.all");
 var ArgPicker = require("./lib/arg_picker");
 var Exception = require("./lib/exception");
 var fx = require("./lib/fx");
+var g = require("./lib/g");
 var HttpClient = require("./lib/http_client");
 var kit = require("./lib/kit");
 var logger = require("./lib/logger");
@@ -17,6 +18,8 @@ var Server = require("./lib/server");
 var Socket = require("./lib/socket");
 var Task = require("./lib/task");
 var Time = require("./lib/time");
+var WebServer = require("./lib/webserver");
+var WebSocket = require("./lib/websocket");
 
 var common = {
     ArgPicker: ArgPicker,
@@ -36,6 +39,16 @@ var common = {
     Socket: Socket,
     Task: Task,
     Time: Time,
+    WebServer: WebServer,
+    WebSocket: WebSocket,
+}
+
+common.enableDebugLog = function() {
+    g.debugLog = true;
+}
+
+common.disableDebugLog = function() {
+    g.debugLog = false;
 }
 
 module.exports = common;

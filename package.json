@@ -13,7 +13,8 @@
     "iconv-lite": "^0.4.13",
     "log4js": "^0.6.30",
     "q": "^1.4.1",
-    "should": "^7.1.1"
+    "should": "^7.1.1",
+    "ws": "^1.0.1"
   },
   "scripts": {
     "test": "mocha lib/test"
