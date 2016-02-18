@@ -11,7 +11,6 @@ var loop = require("./lib/loop");
 var promise = require("./lib/promise");
 var Q = require("./lib/q");
 var Queue = require("./lib/queue");
-var Reader = require("./lib/reader");
 var rpc = require("./lib/rpc");
 var Scheduler = require("./lib/scheduler");
 var Server = require("./lib/server");
@@ -32,7 +31,6 @@ var common = {
     promise: promise,
     Q: Q,
     Queue: Queue,
-    Reader: Reader,
     rpc: rpc,
     Scheduler: Scheduler,
     Server: Server,
