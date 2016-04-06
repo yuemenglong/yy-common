@@ -17,6 +17,7 @@ var Server = require("./lib/server");
 var Socket = require("./lib/socket");
 var Task = require("./lib/task");
 var Time = require("./lib/time");
+var WebApp = require("./lib/webapp");
 var WebServer = require("./lib/webserver");
 var WebSocket = require("./lib/websocket");
 
@@ -37,6 +38,7 @@ var common = {
     Socket: Socket,
     Task: Task,
     Time: Time,
+    WebApp: WebApp, 
     WebServer: WebServer,
     WebSocket: WebSocket,
 }
