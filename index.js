@@ -38,7 +38,7 @@ var common = {
     Socket: Socket,
     Task: Task,
     Time: Time,
-    WebApp: WebApp, 
+    WebApp: WebApp,
     WebServer: WebServer,
     WebSocket: WebSocket,
 }
@@ -49,6 +49,14 @@ common.enableDebugLog = function() {
 
 common.disableDebugLog = function() {
     g.debugLog = false;
+}
+
+common.enableStackTrace = function() {
+    g.stackTrace = true;
+}
+
+common.disableStackTrace = function() {
+    g.stackTrace = false;
 }
 
 module.exports = common;
