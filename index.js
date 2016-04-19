@@ -30,6 +30,7 @@ var common = {
     logger: logger,
     loop: loop,
     promise: promise,
+    g: g,
     Q: Q,
     Queue: Queue,
     rpc: rpc,
